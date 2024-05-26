@@ -23,22 +23,54 @@ def authority_function(valve_PD, load_PD): # function to calculate the authority
     authority = (float(valve_PD) / (float(load_PD) + float(valve_PD))) * 100
     return authority
 
-valve_ref = input("Enter the valve reference: ")
+def main():
 
-# Enter the flow rate complete with validation
-valid_check = False
-while valid_check == False:
-    flow_rate = input("Enter the flow rate (l/s): ")
-    valid_check = validation_check(flow_rate)
+    valve_ref = input("Enter the valve reference: ")
 
-# Enter the pressure drop for the valve with validation
-valid_check = False
-while valid_check == False:
-    load_PD = input("Enter the pressure drop (kPa): ")
-    valid_check = validation_check(load_PD)
+    # Enter the flow rate complete with validation
+    valid_check = False
+    while valid_check == False:
+        flow_rate = input("Enter the flow rate (l/s): ")
+        valid_check = validation_check(flow_rate)
 
-valve_ref = Valve_3P(valve_ref, flow_rate, load_PD)
+    # Enter the pressure drop for the valve with validation
+    valid_check = False
+    while valid_check == False:
+        load_PD = input("Enter the pressure drop (kPa): ")
+        valid_check = validation_check(load_PD)
 
+    act_kvs = actual_kvs(flow_rate, load_PD)
 
+    print("")
+    print(f"The valve reference is: {valve_ref}")
+    print(f"The flow rate is {flow_rate}l/s")
+    print(f"The load pressure drop is {load_PD}kPa")
+    print(f"The actual kvs is {act_kvs:.2f}")
+
+    # Enter the manufacturers data with validation
+    valid_check = False
+    while valid_check == False:
+        man_kv = input("Enter the manufacturers kv value to match the actual kvs value: ")
+        valid_check = validation_check(man_kv)
+
+    manufacturer = input("Enter the manufacturer: ")
+    model = input("Enter the model reference: ")
+    valve_pressure_drop = valve_PD(flow_rate, man_kv)
+    authority = authority_function(valve_pressure_drop, load_PD)
+
+    print("")
+    print(f"The valve pressure drop is {valve_pressure_drop:.2f}kPa")
+    print(f"The valve authority is {authority:.2f}%")
+    print(f"The manufacturer is {manufacturer} and the model is {model}.")
+
+    valves = []
+    valve_ref = Valve_3P(valve_ref, flow_rate, load_PD, manufacturer, model, valve_pressure_drop, authority)
+    valves.append(valve_ref)
+
+    for obj in valves:
+        print(f"{obj.name}, {obj.flow_rate}, {obj.load_PD}, {obj.manufacturer}, {obj.model}, {obj.valve_PD:.2f}, {obj.authority:.2f}")
+
+if __name__ == "__main__":
+    main()
 
 
