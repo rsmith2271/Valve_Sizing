@@ -23,9 +23,30 @@ def authority_function(valve_PD, load_PD): # function to calculate the authority
     authority = (float(valve_PD) / (float(load_PD) + float(valve_PD))) * 100
     return authority
 
-def main():
+def menu():
+    print("\n******************************")
+    print("3 Port Valve Sizing App")
+    print("")
+    print("1. Add a Valve")
+    print("2. Show Valve(s)")
+    print("3. Edit a Valve")
+    print("4. Delete a Valve")
+    print("5. Exit App")
+    print("\n******************************\n")
 
-    valve_ref = input("Enter the valve reference: ")
+    # Enter the selection complete with validation
+    valid_check = False
+    while valid_check == False:
+        selection = input("Enter the selection (1-5): ")
+        valid_check = validation_check(selection)
+        if valid_check == True and int(selection) >= 1 and int(selection) <= 5:
+            return selection
+        else:
+            print(f"The input '{selection}' is not between 1-5.Try again!")
+            valid_check = False
+    
+def add_valve():
+    valve_ref = input("\nEnter the valve reference: ")
 
     # Enter the flow rate complete with validation
     valid_check = False
@@ -63,12 +84,40 @@ def main():
     print(f"The valve authority is {authority:.2f}%")
     print(f"The manufacturer is {manufacturer} and the model is {model}.")
 
-    valves = []
     valve_ref = Valve_3P(valve_ref, flow_rate, load_PD, manufacturer, model, valve_pressure_drop, authority)
-    valves.append(valve_ref)
-
-    for obj in valves:
+    return valve_ref
+    
+def show_valves(valves_list):
+    for obj in valves_list:
         print(f"{obj.name}, {obj.flow_rate}, {obj.load_PD}, {obj.manufacturer}, {obj.model}, {obj.valve_PD:.2f}, {obj.authority:.2f}")
+
+def edit_valve():
+    pass
+
+def delete_valve():
+    pass
+
+def main():
+    main_check = True
+    valves_list = []
+    while main_check == True:
+        selection = menu()
+        selection = int(selection)
+
+        match selection:
+            case 1:
+                valve = add_valve()
+                valves_list.append(valve)
+            case 2:
+                show_valves(valves_list)
+            case 3:
+                pass
+            case 4:
+                pass
+            case 5:
+                main_check = False
+            case _:
+                pass
 
 if __name__ == "__main__":
     main()
