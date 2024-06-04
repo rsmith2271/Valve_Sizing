@@ -13,7 +13,7 @@ def validation_check(user_input): # function to return True or False depending o
     
 def actual_kvs(flow_rate, load_PD): # function to calculate the actual kvs of the valve
     act_kvs = (float(flow_rate) * 3.6) / (math.sqrt(float(load_PD) * 0.01))
-    return act_kvs
+    return round(act_kvs, 2)
 
 def valve_PD(flow_rate, valve_selected_kv): # function to calculate the valve pressure drop
     valve_pressure_drop = (((float(flow_rate) * 3.6)**2) / (float(valve_selected_kv)**2)) * 100
@@ -84,12 +84,16 @@ def add_valve():
     print(f"The valve authority is {authority:.2f}%")
     print(f"The manufacturer is {manufacturer} and the model is {model}.")
 
-    valve_ref = Valve_3P(valve_ref, flow_rate, load_PD, manufacturer, model, valve_pressure_drop, authority)
+    valve_ref = Valve_3P(valve_ref, flow_rate, load_PD, man_kv, act_kvs, manufacturer, model, valve_pressure_drop, authority)
     return valve_ref
     
 def show_valves(valves_list):
+    print("--------------------------------------------------------------------------------------------------------------------------- ")
+    print("| Valve Ref |      Valve         |  Load PD  |  Required  |   Actual  |   Valve    | Authority  |  Manuafacturer |  Model  |")
+    print("|           |  Flow Rate (l/s)   |    (kPa)  |     kv     |   kvs     |  PD (kPa)  |            |                |         |")
+    print(" -------------------------------------------------------------------------------------------------------------------------- ")
     for obj in valves_list:
-        print(f"{obj.name}, {obj.flow_rate}, {obj.load_PD}, {obj.manufacturer}, {obj.model}, {obj.valve_PD:.2f}, {obj.authority:.2f}")
+        print(f"{obj.name}, {obj.flow_rate}, {obj.load_PD}, {obj.man_kv}, {obj.act_kvs}, {obj.manufacturer}, {obj.model}, {obj.valve_PD:.2f}, {obj.authority:.2f}")
 
 def edit_valve():
     pass
