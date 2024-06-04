@@ -88,12 +88,8 @@ def add_valve():
     return valve_ref
     
 def show_valves(valves_list):
-    print("--------------------------------------------------------------------------------------------------------------------------- ")
-    print("| Valve Ref |      Valve         |  Load PD  |  Required  |   Actual  |   Valve    | Authority  |  Manuafacturer |  Model  |")
-    print("|           |  Flow Rate (l/s)   |    (kPa)  |     kv     |   kvs     |  PD (kPa)  |            |                |         |")
-    print(" -------------------------------------------------------------------------------------------------------------------------- ")
     for obj in valves_list:
-        print(f"{obj.name}, {obj.flow_rate}, {obj.load_PD}, {obj.man_kv}, {obj.act_kvs}, {obj.manufacturer}, {obj.model}, {obj.valve_PD:.2f}, {obj.authority:.2f}")
+        print(f"\nValve Ref.: {obj.name}, Flow Rate: {obj.flow_rate}l/s, Load PD: {obj.load_PD}kPa, Manuafcturer's kv: {obj.man_kv}, Actual kvs: {obj.act_kvs}, Authority: {obj.authority:.2f}%, Manufacturer: {obj.manufacturer}, Model: {obj.model}")
 
 def edit_valve():
     pass
